@@ -125,12 +125,12 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 data['DATE'] = pd.to_datetime(data['DATE'], format='%Y-%m-%d')
 data.set_index('DATE', inplace=True)
 
-# Fit the model to the entire dataset
+# Forecast 36 months ahead from the end of the dataset
+last_date = train_data.index[-1]
+# Fit the model to the valid dataset
 full_model = SARIMAX(data['ENERGY_INDEX'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
 full_model_fit = full_model.fit(disp=False)
 
-# Forecast 36 months ahead from the end of the dataset
-last_date = data.index[-1]
 forecast_full = full_model_fit.forecast(steps=36)
 
 # Adding forecast dates to the forecast series
@@ -140,8 +140,30 @@ forecast_full.index = forecast_dates_full
 # Plotting the original series and full forecast
 plt.figure(figsize=(12, 8))
 plt.plot(data.index, data['ENERGY_INDEX'], label='Original Data')
-plt.plot(forecast_full.index, forecast_full, label='Future Forecast', color='red')
-plt.title('Energy Consumption Forecast on Full Dataset')
+plt.plot(forecast_full.index, forecast_full, label='Validation data  Forecasting', color='orange')
+plt.title('Energy Consumption Forecast on Test Dataset')
+plt.xlabel('Date')
+plt.ylabel('Energy Index')
+plt.legend()
+plt.show()
+
+# Forecast 36 months ahead from the end of the dataset
+last_date = data.index[-1]
+# Fit the model to the valid dataset
+full_model = SARIMAX(data['ENERGY_INDEX'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+full_model_fit = full_model.fit(disp=False)
+
+forecast_full = full_model_fit.forecast(steps=36)
+
+# Adding forecast dates to the forecast series
+forecast_dates_full = pd.date_range(start=last_date, periods=36, freq='M') # Assuming monthly frequency
+forecast_full.index = forecast_dates_full
+
+# Plotting the original series and full forecast
+plt.figure(figsize=(12, 8))
+plt.plot(data.index, data['ENERGY_INDEX'], label='Original Data')
+plt.plot(forecast_full.index, forecast_full, label='Future Forecasting', color='red')
+plt.title('Energy Consumption Forecast on entire Dataset')
 plt.xlabel('Date')
 plt.ylabel('Energy Index')
 plt.legend()
