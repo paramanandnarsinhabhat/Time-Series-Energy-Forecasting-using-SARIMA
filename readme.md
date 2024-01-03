@@ -8,15 +8,11 @@ TIME-SERIES-ENERGY-FORECASTING-USING-SARIMA/
 │
 ├── data/
 │   └── energy_consumption_2.csv
-│
-├── myenv/
-│
 ├── notebook/
 │   └── time_series_energy_forecast_sarima.ipynb
 │
 ├── scripts/
 │   └── time_series_energy_forecasting_sarima.py
-│
 ├── .gitignore
 ├── readme.md
 └── requirements.txt
